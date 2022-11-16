@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: url-shortener
+  profiles:
+    active: local
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:localdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database: h2
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
