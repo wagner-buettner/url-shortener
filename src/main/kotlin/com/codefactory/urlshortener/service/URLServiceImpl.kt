@@ -9,14 +9,14 @@ import java.math.BigInteger
 import java.security.MessageDigest
 
 @Service
-class UrlService(
+class URLServiceImpl(
   private val redis: RedisTemplate<String, String>,
   private val repository: HashURLRepository
-) {
+) : URLService {
 
   private val digest = MessageDigest.getInstance("SHA3-512")
 
-  fun createShortURL(url: String): String {
+  override fun createShortURL(url: String): String {
     val hash = createHash(url)
     if (repository.findByHash(hash).isPresent) { //check collision
       return hash
@@ -27,14 +27,7 @@ class UrlService(
     return hash
   }
 
-  private fun createHash(url: String, length: Int = 8): String {
-    val bytes = digest.digest(url.toByteArray(Charsets.UTF_8))
-    val hash = String.format("%32x", BigInteger(1, bytes))
-
-    return hash.take(length)
-  }
-
-  fun resolveShortURL(hash: String): String {
+  override fun resolveShortURL(hash: String): String {
     val urlToReturn = redis.opsForValue().get(hash)
 
     if (urlToReturn.isNullOrEmpty()) { // cache miss
@@ -48,5 +41,12 @@ class UrlService(
     } else {
       return urlToReturn
     }
+  }
+
+  private fun createHash(url: String, length: Int = 8): String {
+    val bytes = digest.digest(url.toByteArray(Charsets.UTF_8))
+    val hash = String.format("%32x", BigInteger(1, bytes))
+
+    return hash.take(length)
   }
 }

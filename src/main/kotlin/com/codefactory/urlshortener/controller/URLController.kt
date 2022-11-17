@@ -2,7 +2,7 @@ package com.codefactory.urlshortener.controller
 
 import com.codefactory.urlshortener.dto.URLRequestDTO
 import com.codefactory.urlshortener.dto.URLResponseDTO
-import com.codefactory.urlshortener.service.UrlService
+import com.codefactory.urlshortener.service.URLService
 import mu.KLogging
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.net.URI
 
 @RestController
-class UrlController(private val service: UrlService) {
+class URLController(private val service: URLService) {
 
   companion object : KLogging();
 
