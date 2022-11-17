@@ -11,18 +11,18 @@ spring:
     activate:
       on-profile: local
   datasource:
-    url: jdbc:h2:mem:localdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/url-shortener-db
+    username: url-shortener-usr
+    password: url-shortener-passwd#123
   jpa:
-    database: h2
-    database-platform: org.hibernate.dialect.H2Dialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
     show-sql: true
-  h2:
-    console:
-      enabled: true
+  redis:
+    host: localhost
+    port: 6379
 ---
 spring:
   config:
