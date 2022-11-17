@@ -1,5 +1,38 @@
+version: '3.9'
+
 services:
+  app:
+    image: 'url-shortener:latest'
+    ports:
+      - "8080:8080"
+    build:
+      context: .
+    container_name: url-shortener
+    restart: always
+    depends_on:
+      - redis
+      - postgres_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_db:5432/url-shortener-db
+      - SPRING_DATASOURCE_USERNAME=url-shortener-usr
+      - SPRING_DATASOURCE_PASSWORD=url-shortener-passwd#123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
   redis:
     image: "redis:7-alpine"
+    container_name: redis
     ports:
       - "6379:6379"
+
+  postgres_db:
+    image: 'postgres:15.1-alpine'
+    ports:
+      - "5432:5432"
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=url-shortener-usr
+      - POSTGRES_PASSWORD=url-shortener-passwd#123
+      - POSTGRES_DB=url-shortener-db
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: always

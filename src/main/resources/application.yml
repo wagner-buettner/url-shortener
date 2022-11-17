@@ -2,7 +2,9 @@ spring:
   application:
     name: url-shortener
   profiles:
-    active: local
+    active: prod
+server:
+  port: ${port:8080}
 ---
 spring:
   config:
@@ -26,3 +28,15 @@ spring:
   config:
     activate:
       on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: true
+    show-sql: false
+  redis:
+    host: redis
