@@ -29,7 +29,6 @@ class UrlController(private val service: UrlService) {
     val target = service.resolveShortURL(hash)
 
     logger.info { "hash $hash resolved into $target" }
-
     return ResponseEntity
       .status(HttpStatus.MOVED_PERMANENTLY)
       .location(URI.create(target))
