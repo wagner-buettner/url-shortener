@@ -2,10 +2,7 @@ package com.codefactory.urlshortener.service
 
 import com.codefactory.urlshortener.exception.HashNotFound
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.ResponseStatus
-import java.lang.RuntimeException
 import java.math.BigInteger
 import java.security.MessageDigest
 
