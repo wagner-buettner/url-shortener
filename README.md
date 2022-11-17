@@ -18,15 +18,27 @@ Go to the project folder and run:
 - (in case to run locally inside the intelliJ you should run docker-compose to create the Postgres and Redis instances. then, stop the api on docker and run the local profile inside the intelliJ)
 
 ### Tests Run ###
-#### (after the first build on the step before has been run) ####
-* docker-compose up -d
+#### (after the first build + postgres and redis running) ####
 * ./gradlew clean test --info
 - and check the report under the project folder: /url-shortener/build/reports/tests/test/index.html
 
-#### One line build and deploy:
+#### One line build and deploy: ####
 * docker-compose down && ./gradlew clean build -x test && docker build . -t url-shortener:latest && docker-compose up -d
 
-#### Postrgres+Docker string connection:
+#### Usage ####
+* You can import the URL-Shortener.postman_collection.json into the Postman
+* or use curl in the terminal as following:
+
+```
+curl --location --request POST 'http://localhost:8080/' \
+--header 'Content-Type: application/json' \
+--data-raw '{"url": "https://www.google.com"}'
+
+curl --location --request GET 'http://localhost:8080/2315c569'
+```
+
+#### Postrgres+Docker string connection: ####
+###### in case if you want to connect to the database ######
 * psql -U url-shortener-usr -d url-shortener-db
 
 ### Possible Future Improvements and Features ###
