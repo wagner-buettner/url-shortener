@@ -1,7 +1,7 @@
 package com.codefactory.urlshortener.controller
 
-import com.codefactory.urlshortener.entity.URLRequest
-import com.codefactory.urlshortener.entity.URLResponse
+import com.codefactory.urlshortener.dto.URLRequestDTO
+import com.codefactory.urlshortener.dto.URLResponseDTO
 import com.codefactory.urlshortener.service.UrlService
 import mu.KLogging
 import org.springframework.http.HttpHeaders
@@ -17,11 +17,11 @@ class UrlController(private val service: UrlService) {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  fun createShortURL(@RequestBody request: URLRequest): URLResponse {
+  fun createShortURL(@RequestBody request: URLRequestDTO): URLResponseDTO {
     val hash = service.createShortURL(request.url)
 
     logger.info { "url requested: ${request.url} and hashed to: $hash" }
-    return URLResponse(hash)
+    return URLResponseDTO(hash)
   }
 
   @GetMapping("/{hash}")

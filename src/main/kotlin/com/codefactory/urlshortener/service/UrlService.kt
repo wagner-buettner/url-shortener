@@ -4,9 +4,7 @@ import com.codefactory.urlshortener.entity.HashURL
 import com.codefactory.urlshortener.exception.HashNotFound
 import com.codefactory.urlshortener.repository.HashURLRepository
 import org.springframework.data.redis.core.RedisTemplate
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
-import org.springframework.util.StringUtils
 import java.math.BigInteger
 import java.security.MessageDigest
 
@@ -20,10 +18,12 @@ class UrlService(
 
   fun createShortURL(url: String): String {
     val hash = createHash(url)
-    val hashURL = HashURL(null, hash, url)
-    repository.save(hashURL)
-    redis.opsForValue().set(hash, url)
+    if (repository.findByHash(hash).isPresent) { //check collision
+      return hash
+    }
 
+    repository.save(HashURL(null, hash, url))
+    redis.opsForValue().set(hash, url)
     return hash
   }
 
@@ -35,9 +35,9 @@ class UrlService(
   }
 
   fun resolveShortURL(hash: String): String {
-    val hashToReturn = redis.opsForValue().get(hash)
+    val urlToReturn = redis.opsForValue().get(hash)
 
-    if (hashToReturn.isNullOrEmpty()) { // cache miss
+    if (urlToReturn.isNullOrEmpty()) { // cache miss
       val hashStored = repository.findByHash(hash)
       if (hashStored.isPresent) {
         redis.opsForValue().set(hash, hashStored.get().url)
@@ -46,7 +46,7 @@ class UrlService(
         throw HashNotFound("Hash not found: $hash")
       }
     } else {
-      return hashToReturn;
+      return urlToReturn
     }
   }
 }
