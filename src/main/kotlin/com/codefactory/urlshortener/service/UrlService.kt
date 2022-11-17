@@ -19,17 +19,18 @@ class UrlService(
   fun createShortURL(url: String): String {
     val hash = createHash(url)
     redis.opsForValue().set(hash, url)
+
     val hashURL = HashURL(null, hash, url)
     repository.save(hashURL)
 
     return hash
   }
 
-  private fun createHash(url: String, lenght: Int = 8): String {
+  private fun createHash(url: String, length: Int = 8): String {
     val bytes = digest.digest(url.toByteArray(Charsets.UTF_8))
     val hash = String.format("%32x", BigInteger(1, bytes))
 
-    return hash.take(lenght)
+    return hash.take(length)
   }
 
   fun resolveShortURL(hash: String): String {
