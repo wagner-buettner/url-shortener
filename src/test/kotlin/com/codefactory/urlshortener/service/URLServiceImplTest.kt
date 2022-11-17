@@ -32,7 +32,7 @@ internal class URLServiceImplTest {
 
   @BeforeEach
   fun setup() {
-    MockitoAnnotations.openMocks(this);
+    MockitoAnnotations.openMocks(this)
     Mockito.`when`(redis.opsForValue()).thenReturn(valueOperations)
     Mockito.doNothing().`when`(valueOperations).set(anyString(), anyString())
   }

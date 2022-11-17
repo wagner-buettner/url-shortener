@@ -12,10 +12,16 @@ This is an MVP API for Code Factory to create hashes for received URLs
 
 ### Build and Run ###
 Go to the project folder and run:
-* ./gradlew clean build
+* ./gradlew clean build -x test
 * docker build . -t url-shortener:latest
 * docker-compose up -d
 - (in case to run locally inside the intelliJ you should run docker-compose to create the Postgres and Redis instances. then, stop the api on docker and run the local profile inside the intelliJ)
+
+### Tests Run ###
+#### (after the first build on the step before has been run) ####
+* docker-compose up -d
+* ./gradlew clean test --info
+- and check the report under the project folder: /url-shortener/build/reports/tests/test/index.html
 
 #### One line build and deploy:
 * docker-compose down && ./gradlew clean build -x test && docker build . -t url-shortener:latest && docker-compose up -d
