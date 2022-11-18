@@ -18,7 +18,6 @@ Go to the project folder and run:
 - (in case to run locally inside the intelliJ you should run docker-compose to create the Postgres and Redis instances. then, stop the api on docker and run the local profile inside the intelliJ)
 
 ### Tests Run ###
-#### (after the first build + postgres and redis running) ####
 * ./gradlew clean test --info
 - and check the report under the project folder: /url-shortener/build/reports/tests/test/index.html
 
